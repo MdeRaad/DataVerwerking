@@ -18,20 +18,21 @@ from pathlib import Path
 #       MTL_backbone.pth
 #   OpenFace-3.0/              ← OpenFace broncode (voor interne weights)
 
-SCRIPT_DIR  = Path(__file__).resolve().parent
+SCRIPT_DIR = Path(__file__).resolve().parent
+OPENFACE_DIR = SCRIPT_DIR / "OpenFace-3.0"
+WEIGHTS_DIR = OPENFACE_DIR / "weights"
 
-# OpenFace laadt intern weights via "./weights/..." dus chdir naar OpenFace-3.0
-os.chdir(SCRIPT_DIR / "OpenFace-3.0")
+# OpenFace laadt soms intern via relatieve paden, dus chdir naar OpenFace-3.0
+os.chdir(OPENFACE_DIR)
 
 from openface.face_detection import FaceDetector
 from openface.multitask_model import MultitaskPredictor
 
-# ── Config ────────────────────────────────────────────────────────────────────
+VIDEO_DIR = SCRIPT_DIR / "videos"
+OUTPUT_DIR = SCRIPT_DIR / "output_csv"
 
-VIDEO_DIR   = SCRIPT_DIR / "videos"
-OUTPUT_DIR  = SCRIPT_DIR / "output_csv"
-FACE_MODEL  = str(SCRIPT_DIR / "weights" / "Alignment_RetinaFace.pth")
-MULTI_MODEL = str(SCRIPT_DIR / "weights" / "MTL_backbone.pth")
+FACE_MODEL = str(WEIGHTS_DIR / "Alignment_RetinaFace.pth")
+MULTI_MODEL = str(WEIGHTS_DIR / "MTL_backbone.pth")
 DEVICE      = "cuda" if torch.cuda.is_available() else "cpu"
 
 FRAME_STEP  = 1
